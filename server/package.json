@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harjotkataria1/SmartcampusLostandFoundManagementsystem.git"
+    "url": "git+https://github.com/jayrode12/CampusLostFound.git"
   },
-  "author": "harjot",
+  "author": "Jay Rode",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/harjotkataria1/SmartcampusLostandFoundManagementsystem/issues"
+    "url": "https://github.com/jayrode12/CampusLostFound/issues"
   },
-  "homepage": "https://github.com/harjotkataria1/SmartcampusLostandFoundManagementsystem#readme",
+  "homepage": "https://github.com/jayrode12/CampusLostFound#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",

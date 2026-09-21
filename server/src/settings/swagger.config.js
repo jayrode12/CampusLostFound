@@ -15,9 +15,9 @@ const options = {
         url: "https://spdx.org/licenses/MIT.html",
       },
       contact: {
-        name: "CB",
-        url: "https://imcb.in",
-        email: "chandandeep95012@gmail.com",
+        name: "Jay Rode",
+        url: "https://github.com/jayrode12/CampusLostFound",
+        email: "rodejayedu01@gmail.com",
       },
     },
     servers: [
