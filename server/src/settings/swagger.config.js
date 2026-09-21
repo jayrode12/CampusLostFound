@@ -17,7 +17,7 @@ const options = {
       contact: {
         name: "Jay Rode",
         url: "https://github.com/jayrode12/CampusLostFound",
-        email: "rodejayedu01@gmail.com",
+        email: "jayrode69@gmail.com",
       },
     },
     servers: [
