@@ -15,13 +15,24 @@ function responseFormatter(req, res, next) {
     // Guard: data can be null on certain error paths (e.g. DB errors returning null)
     const safeData = data ?? {};
 
+    if (safeData.message) {
+      response.message = safeData.message;
+    }
+
     if (statusCode >= 200 && statusCode < 300) {
-      // If pagination key exists, expose data array separately; otherwise pass data as-is
-      response.data = safeData.pagination ? safeData.data : safeData;
+      // If safeData has a data key (e.g. { message: "...", data: result }), unwrap it directly
+      if (safeData.data !== undefined) {
+        response.data = safeData.data;
+      } else {
+        response.data = safeData;
+      }
     }
 
     if (statusCode >= 300) {
       response.error = safeData;
+      if (safeData.reason) {
+        response.message = safeData.reason;
+      }
     }
 
     if (safeData.pagination) {

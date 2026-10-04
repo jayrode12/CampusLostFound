@@ -121,7 +121,9 @@ function ItemCard({ item, onApprove, onReject, isApprovingId, isRejectingId }) {
             <p className="text-gray-500 text-sm">
               Reported by:{" "}
               <span className="font-medium text-gray-600">
-                {item.postedBy?.name ?? "Unknown"}
+                {item.postedBy?.firstname
+                  ? `${item.postedBy.firstname} ${item.postedBy.lastname || ""}`.trim()
+                  : (item.postedBy?.name ?? "Unknown")}
               </span>
               {item.postedBy?.email && (
                 <span className="text-gray-400"> · {item.postedBy.email}</span>

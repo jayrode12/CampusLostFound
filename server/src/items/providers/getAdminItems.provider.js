@@ -159,9 +159,9 @@ async function getAdminItemsProvider(req, res) {
         .skip(skip)
         .limit(limitNumber)
         // populate reporter name + email for the card display
-        .populate("postedBy",   "name email")
+        .populate("postedBy",   "firstname lastname email profileImage")
         // populate verifiedBy admin name
-        .populate("verifiedBy", "name email"),
+        .populate("verifiedBy", "firstname lastname email"),
 
       Item.countDocuments(filter),
     ]);

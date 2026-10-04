@@ -57,7 +57,8 @@ async function updateItemProvider(req, res) {
 
     // image update (optional)
     if (req.file?.path) {
-      updatePayload.imageURL = req.file.path;
+      const fullPath = req.file.path;
+      updatePayload.imageURL = fullPath.substring(fullPath.indexOf("uploads"));
     }
 
     // NEVER allow status changes from user

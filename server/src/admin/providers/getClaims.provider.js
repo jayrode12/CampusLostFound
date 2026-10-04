@@ -65,6 +65,8 @@ async function getClaimsProvider(req, res) {
           ],
         })
 
+        .populate("claimedBy", "firstname lastname email phone")
+
         .sort({ createdAt: -1 })
 
         .skip(skip)

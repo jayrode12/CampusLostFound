@@ -4,7 +4,8 @@
   "description": "it is a campus los",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test_e2e_apis.js",
+    "seed": "node seedDatabase.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "staging": "cross-env NODE_ENV=staging nodemon src/index.js",
     "start": "cross-env NODE_ENV=production nodemon src/index.js"

@@ -4,22 +4,21 @@ const dotenv = require("dotenv");
 const configureApp = require("./settings/config.js");
 const seedAdmin  = require("./seeders/seedAdmin.js");
 
-// Set the defaul environment
+const path = require("path");
+
+// Set the default environment
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 console.log(`Current Environment: ${process.env.NODE_ENV}`);
 
 // Load Environment variables from different files based on environment
-const envFile = `.env.${process.env.NODE_ENV}`;
-console.log(`Loading environment variables from: ${envFile}`);
-// configure dotenv earlier in application
-dotenv.config({ path: envFile });
-
+const envPath = path.resolve(__dirname, `../.env.${process.env.NODE_ENV}`);
+console.log(`Loading environment variables from: ${envPath}`);
+dotenv.config({ path: envPath });
 
 const app = express();
 const port = parseInt(process.env.PORT) || 3001;
 
-
-//  Parsing request body
+// Parsing request body
 app.use(express.json());
 configureApp(app);
 
@@ -29,7 +28,10 @@ async function bootstrap() {
       process.env.DATABASE_URL,
       { dbName: process.env.DATABASE_NAME }
     );
-    console.log("Connnected To MongoDB");
+    console.log("Connected To MongoDB");
+
+    // Create default admin user if not exists
+    await seedAdmin();
 
     app.listen(port, () => {
       console.log(`App listening on port ${port}`);
@@ -37,14 +39,8 @@ async function bootstrap() {
 
   } catch (error) {
     console.error(error);
-    /** An exit code of 1 typically indicates that there was an error or abnormal termination of the program, which is often used to signal failure in scenarios where the program encounters critical issues that prevent normal operation. */
     process.exit(1);
   }
 }
 
 bootstrap();
-
-//to create a default admin user if not exists
-mongoose.connect(process.env.DATABASE_URL).then(async () => {
-  await seedAdmin(); // ← runs once, skips if admin exists
-});

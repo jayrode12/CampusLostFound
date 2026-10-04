@@ -16,7 +16,16 @@ const updateItemValidator = [
 
   body("date").optional().isISO8601(),
 
-  body("keywords").optional().isArray(),
+  body("keywords")
+    .optional()
+    .customSanitizer((value) => {
+      if (typeof value === "string") {
+        return value.split(",").map((k) => k.trim()).filter(Boolean);
+      }
+      return value;
+    })
+    .isArray()
+    .withMessage("Keywords must be an array"),
   body("keywords.*").optional().isString(),
 
   body("lat").optional().isFloat({ min: -90, max: 90 }),

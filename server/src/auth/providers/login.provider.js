@@ -9,16 +9,28 @@ async function loginProvider(req, res) {
 
    const validatedData = matchedData(req);
  try {
-     // Get the user from the database
+    // Get the user from the database
     const user = await getUserByEmail(validatedData.email);
+
+    if (!user || !user.password) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Invalid email or password." });
+    }
+
+    if (user.isBlocked) {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: "Your account has been suspended. Please contact admin." });
+    }
 
     // Compare password to hash
     const result = await bcrypt.compare(validatedData.password, user.password);
 
     if (!result) {
       return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: "Please check your credentials." });
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Invalid email or password." });
     }
 
         // Generate Access token
@@ -26,6 +38,8 @@ async function loginProvider(req, res) {
 
     return res.status(StatusCodes.OK).json({
       accessToken: token,
+      id: user._id,
+      _id: user._id,
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,

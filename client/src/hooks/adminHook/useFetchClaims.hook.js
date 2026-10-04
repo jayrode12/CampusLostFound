@@ -12,7 +12,7 @@ const fetchClaims = async ({ status, page = 1, limit = 10 }) => {
   if (limit) params.append("limit", limit);
 
   const res = await fetch(
-    `${import.meta.env.VITE_API_URL}claims`,
+    `${import.meta.env.VITE_API_URL}claims?${params.toString()}`,
     {
       method: "GET",
       headers: {

@@ -1,3 +1,4 @@
+const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const morgan = require("morgan");
@@ -77,6 +78,9 @@ app.use(responseFormatter);
 
 //  Winston Express Logger Middleware
 app.use(expressWinstonLogger);
+
+// Serve uploaded files statically
+app.use("/uploads", express.static(path.resolve(__dirname, "../../../client/public/uploads")));
 
 //  Defining Routes
 app.use("/", authRouter);

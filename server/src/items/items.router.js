@@ -78,7 +78,7 @@ itemRouter.post(
 );
 
 itemRouter.patch(
-  "/items",
+  "/items/:id",
   authenticateToken,
   upload.single("image"),
   updateItemValidator,

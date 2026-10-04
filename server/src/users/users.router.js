@@ -46,7 +46,7 @@ usersRouter.post("/create", createUserValidator, (req, res) => {
   }
 });
 
-usersRouter.patch("/:id/block", blockUserValidator, (req, res) => {
+usersRouter.patch("/:id/block", authenticateToken, blockUserValidator, (req, res) => {
   const result = validationResult(req);
   if (result.isEmpty()) {
     return usersController.handleBlockUser(req, res);

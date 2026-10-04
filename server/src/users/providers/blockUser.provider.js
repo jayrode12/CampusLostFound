@@ -10,17 +10,29 @@ const errorLogger = require("../../helpers/errorLogger.helper.js");
 async function blockUserProvider(req, res) {
   try {
   
-        const user = await User.findById(req.params.id);
+    if (req.user?.role?.toLowerCase() !== "admin") {
+      return res.status(StatusCodes.FORBIDDEN).json({
+        message: "Admin access required",
+      });
+    }
 
-        if (!user) {
-            return res.status(404).json({ message: "user not found" });
-        }
+    const user = await User.findById(req.params.id);
 
-        user.isBlocked = true ;
-        await user.save();
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "User not found" });
+    }
+
+    user.isBlocked = !user.isBlocked;
+    await user.save();
+
+    logger.info("User block status updated", {
+      adminId: req.user.sub,
+      targetUserId: user._id,
+      isBlocked: user.isBlocked,
+    });
 
     return res.status(StatusCodes.OK).json({
-        message: "Match accepted",
+      message: user.isBlocked ? "User blocked successfully" : "User unblocked successfully",
       data: user,
     });
 
