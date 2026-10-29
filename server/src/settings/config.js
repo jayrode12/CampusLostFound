@@ -34,11 +34,15 @@ function configureApp(app) {
 
 // CORS Configuration with Multiple Origins and Regex Support
 const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
   /\.app\.github\.dev$/,    // GitHub Codespaces
-  /\.devtunnels\.ms$/,      // VS Code Dev Tunnels ← add this
+  /\.devtunnels\.ms$/,      // VS Code Dev Tunnels
 ];
+
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -56,6 +60,8 @@ app.use(cors({
     }
   },
   credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 
